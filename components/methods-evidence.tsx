@@ -301,7 +301,7 @@ export function MethodsEvidence({ data, act, busy }: Props) {
               connection is implied.
             </p>
             <Button variant="outline" onClick={() => window.print()}>
-              Print evidence summary / save PDF
+              Print this view / save PDF
             </Button>
           </div>
           <div>

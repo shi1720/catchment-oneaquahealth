@@ -10,6 +10,7 @@ import {
 import {
   addAudit,
   allocate,
+  planApprovalKey,
   assess,
   fingerprint,
   POLICY_VERSION,
@@ -136,6 +137,11 @@ export async function POST(req: Request) {
         if (body.acknowledged !== true)
           throw new Error("Confirm coordinator review before dispatch.");
         const plan = allocate(assess(w), w, body.budget, body.capacity);
+        if (body.approvedPlan !== planApprovalKey(plan, s.revision))
+          throw new ApiError(
+            409,
+            "The displayed plan changed with the evidence or daily window. Reload and approve the current plan.",
+          );
         if (!plan.selected.length)
           throw new Error(
             "No sites fit this plan. Increase the budget or capacity.",

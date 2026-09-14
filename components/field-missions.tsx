@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
-import { allocate } from "@/lib/catchment/engine";
+import { allocate, planApprovalKey } from "@/lib/catchment/engine";
 import { siteById, type SiteId } from "@/lib/catchment/model";
 import { when, type Props } from "./catchment-common";
 export function FieldMissions({
@@ -193,6 +193,7 @@ export function FieldMissions({
                     budget,
                     capacity,
                     acknowledged: ack,
+                    approvedPlan: planApprovalKey(plan, data.revision),
                   })
                 )
                   setAck(false);

@@ -1,4 +1,5 @@
 import test from "node:test";
+import { allocate, planApprovalKey } from "../lib/catchment/engine.ts";
 import assert from "node:assert/strict";
 const base = process.env.CATCHMENT_TEST_URL ?? "http://localhost:5173";
 const origin = new URL(base).origin;
@@ -25,7 +26,25 @@ async function post(
       Origin: requestOrigin,
       Cookie: s.cookie,
     },
-    body: JSON.stringify({ action, revision, requestId: id, ...extra }),
+    body: JSON.stringify({
+      action,
+      revision,
+      requestId: id,
+      ...(action === "dispatch" && extra.acknowledged
+        ? {
+            approvedPlan: planApprovalKey(
+              allocate(
+                s.data.assessments,
+                s.data.workspace,
+                extra.budget,
+                extra.capacity,
+              ),
+              revision,
+            ),
+          }
+        : {}),
+      ...extra,
+    }),
   });
   const raw = await r.text();
   let body;
@@ -154,6 +173,8 @@ test("API enforces isolation, validation, concurrency, idempotency, daily budget
       );
     },
   );
+  const mismatch = await post(s,"dispatch",{budget:80,capacity:2,acknowledged:true,approvedPlan:"different-plan"});
+  assert.equal(mismatch.status,409,"A stale or substituted displayed approval must fail");
   await t.test("dispatch stores immutable evidence snapshots", async () => {
     assert.equal(
       (

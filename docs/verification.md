@@ -1,12 +1,12 @@
 # Verification record
 
-Last local verification: 14 September 2026. All data generated during tests is synthetic. Production status is recorded in the release handoff; local tests alone do not prove hosted availability.
+Last local verification: 14 September 2026. All data generated during tests is synthetic. Production status is recorded in the release handoff; local tests alone do not prove hosted availability. The built Worker also passed the API and browser journey checks.
 
 ## Checks completed
 
 - **22 unit tests**: deterministic seed, strict enums (including array/object rejection), numeric bounds and zero/unknown distinction, stale evidence, review/rejection, duplicate signal handling, urgent wildlife independent of budget, exact allocation, cumulative daily commitments, CSV escaping and negative-temperature roundtrip, experimental FHIR reference/status structure, rainfall completeness/staleness and a genuine EA response fixture.
 - The allocation check considers every one of the 32 possible subsets at 246 budget/capacity combinations. This proves optimality for that fixture and objective, not ecological usefulness or large-scale performance.
-- **17 API scenarios** against the running local Worker environment: origin rejection, validation, persistence, duplicate handling, version conflict, idempotency, approval requirement, frozen dispatch provenance, cumulative budget, follow-up linkage, atomic import, second-visitor isolation, exports and session checks, concurrent write conflict and reset.
+- **17 API scenarios** against the running local Worker environment: origin rejection, validation, persistence, duplicate handling, version conflict, idempotency, approval requirement and exact-plan comparison, frozen dispatch provenance, cumulative budget, follow-up linkage, atomic import, second-visitor isolation, exports and session checks, concurrent write conflict and reset.
 - **Browser journey**: record, show and correct a quality conflict, confirm with rationale, compare 2/1 visits, dispatch, reload, complete visit, export 3 formats, import CSV, confirm isolated second visitor. No browser page errors.
 - Four tabs checked at 390 px and 768 px for horizontal page overflow; representative desktop/mobile screenshots visually inspected. Additional checks cover approval invalidation, preserving input after network failure, and 200% root-font enlargement on desktop. This is not a comprehensive WCAG audit or assistive-technology/user study.
 - **WebMCP**: native browser support was unavailable. Registration plus valid/invalid read/staging semantics were exercised with an explicit browser shim. Native conformance was not verified; no mission is dispatched by the staging tool.

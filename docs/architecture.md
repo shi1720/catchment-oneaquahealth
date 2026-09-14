@@ -17,7 +17,7 @@ The session identifier is 2 cryptographically random UUIDs. It is held in an Htt
 | GET `/api/rainfall` | Fetch fixed EA gauge with a 7-second timeout. Cache successful response 5 minutes; no cache for upstream failure. Does not affect scenario scores. |
 | GET `/api/export?format=json\|csv\|fhir` | Requires valid session; returns attachment with no-store. Only JSON contains the entire decision trail. |
 
-Actions: `observe {observation}`, `import {observations}`, `review {id,status,note}`, `dispatch {budget,capacity,acknowledged:true}`, `complete {id,outcome}`, `reset {confirmation:"RESET"}`. Every mutation also needs `revision` and `requestId`.
+Actions: `observe {observation}`, `import {observations}`, `review {id,status,note}`, `dispatch {budget,capacity,acknowledged:true,approvedPlan}`, `complete {id,outcome}`, `reset {confirmation:"RESET"}`. Every mutation also needs `revision` and `requestId`.
 
 - 400: invalid action/data/transition; input preserved in client.
 - 401: missing or expired session; reload to start again.
@@ -30,6 +30,8 @@ Actions: `observe {observation}`, `import {observations}`, `review {id,status,no
 A repeated requestId already in the workspace returns the current snapshot without repeating its side effect. The last 100 IDs are retained, so callers must not treat old keys as permanent idempotency guarantees.
 
 ## Dispatch consistency
+
+The client supplies an exact approval key covering the displayed policy, revision, UTC date, limits, selected sites, scores, report IDs and explanations. The server compares it with the current recomputation and returns 409 if it changed. The UI invalidates approval when the plan changes.
 
 The server recomputes the plan from stored evidence; it does not trust a client-supplied selected-site list or priority. It deducts every mission created during the current UTC date, including completed missions, from the total day limits. All open missions remain excluded from new allocations. New limits become persisted at successful dispatch. Budgets are illustrative GBP integers; costs are fictional consumables/travel estimates.
 

@@ -420,3 +420,20 @@ export function addAudit(
   workspace.audit = workspace.audit.slice(0, 250);
 }
 export { POLICY_VERSION };
+
+/** Binds a human approval to the exact displayed reasoning and daily window. */
+export function planApprovalKey(plan: Plan, revision: number): string {
+  return JSON.stringify({
+    policy: POLICY_VERSION,
+    revision,
+    day: plan.windowDate,
+    budget: plan.budget,
+    capacity: plan.capacity,
+    selection: plan.selected.map((a) => ({
+      siteId: a.siteId,
+      score: a.score,
+      reportIds: a.reportIds,
+      contributions: a.contributions,
+    })),
+  });
+}
