@@ -5,6 +5,11 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    // The home link intentionally starts a fresh document across app runtimes.
+    files: ["app/page.tsx"],
+    rules: { "@next/next/no-html-link-for-pages": "off" },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

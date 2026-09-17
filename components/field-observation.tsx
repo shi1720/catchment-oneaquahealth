@@ -48,6 +48,8 @@ export function FieldObservation({
   const [calibrated, setCalibrated] = useState(false);
   const [error, setError] = useState("");
   useEffect(() => {
+    // Initialize the browser-local time after hydration and reset it for a new site.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setDate(localNow());
     setSite(initialSite);
   }, [initialSite]);
