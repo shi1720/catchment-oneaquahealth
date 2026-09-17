@@ -78,6 +78,8 @@ export default function Home() {
     }
   }, []);
   useEffect(() => {
+    // Load commits an asynchronous workspace response.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void load();
   }, [load]);
   const act = useCallback(

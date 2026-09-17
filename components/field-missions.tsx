@@ -43,6 +43,8 @@ export function FieldMissions({
   const ack = approvedKey === planKey;
   const setAck = (value: boolean) => setApprovedKey(value ? planKey : null);
   useEffect(() => {
+    // Changing a field plan invalidates approval, including revisiting an earlier plan.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setApprovedKey(null);
   }, [planKey]);
   return (

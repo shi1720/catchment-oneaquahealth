@@ -57,6 +57,8 @@ export function MethodsEvidence({ data, act, busy }: Props) {
     }
   }
   useEffect(() => {
+    // Synchronize rainfall data and its loading indicator with the remote source.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadRain();
   }, []);
   function template() {
